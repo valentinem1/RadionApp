@@ -18,6 +18,11 @@ class Radion
 # - Seat
 
   attr_accessor :name
+
+  require "tty-prompt"
+
+  $prompt = TTY::Prompt.new
+
   def run
     welcome
     login
@@ -33,22 +38,31 @@ class Radion
   end
 
   def login
-    puts "what is your name ?"
-    name = gets.chomp.downcase
-    
-    @name = Customer.find_or_create_by(name: name.capitalize)
-    puts "Welcome #{@name.name.capitalize}!"
-    # binding.pry
+    movies = Movie.all.each do |movie|
+      # binding.pry
+      " #{movie.id}- #{movie.movie_name} - #{movie.producer}"
+    end
+    option = $prompt.select("Please choose your movie:", ["movies".capitalize, "My Tickets"])
+      option
   end
 
-  def movie
-    puts "Available movies today:"
-    Movie.all.each do |movie|
-      # binding.pry
-      puts " #{movie.id}- #{movie.movie_name} - #{movie.producer}"
-      puts " "
-    end
-  end
+  # def login
+  #   puts "what is your name ?"
+  #   name = gets.chomp.downcase
+    
+  #   @name = Customer.find_or_create_by(name: name.capitalize)
+  #   puts "Welcome #{@name.name.capitalize}!"
+  #   # binding.pry
+  # end
+
+  # def movie
+  #   puts "Available movies today:"
+  #   Movie.all.each do |movie|
+  #     # binding.pry
+  #     puts " #{movie.id}- #{movie.movie_name} - #{movie.producer}"
+  #     puts " "
+  #   end
+  # end
 
 end #end of class
 
