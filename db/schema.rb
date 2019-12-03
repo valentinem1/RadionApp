@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2019_12_03_014949) do
   create_table "tickets", force: :cascade do |t|
     t.integer "customer_id"
     t.integer "theater_id"
+    t.integer "movie_id"
   end
 
 end

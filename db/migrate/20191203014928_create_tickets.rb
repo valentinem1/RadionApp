@@ -3,6 +3,7 @@ class CreateTickets < ActiveRecord::Migration[5.2]
     create_table :tickets do |t|
       t.integer :customer_id
       t.integer :theater_id
+      t.integer :movie_id
     end
   end
 end

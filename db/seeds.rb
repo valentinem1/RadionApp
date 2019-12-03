@@ -14,3 +14,7 @@ end
 10.times do
     Customer.create(name: Faker::Name.name)
 end
+
+10.times do
+    Showtime.create(movie_time: Faker::Time.between(from: DateTime.now - 1, to: DateTime.now, format: :short))
+end

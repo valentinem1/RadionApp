@@ -21,12 +21,10 @@ class Radion
 
   require "tty-prompt"
 
-  $prompt = TTY::Prompt.new
-
   def run
     welcome
     login
-    movie
+    # movie
     # wanna_see_favs?
     # get_joke(what_subject)
   end
@@ -34,16 +32,22 @@ class Radion
   private
 
   def welcome
-    puts "Hi, Welcome to Radion"
+    puts "Hi, Welcome to Radion Movie Theater"
   end
 
   def login
-    movies = Movie.all.each do |movie|
-      # binding.pry
-      " #{movie.id}- #{movie.movie_name} - #{movie.producer}"
-    end
-    option = $prompt.select("Please choose your movie:", ["movies".capitalize, "My Tickets"])
-      option
+    movies_array = Movie.all.map{|movie| movie.movie_name}
+    movie_prompt = TTY::Prompt.new
+    movie_option = movie_prompt.select("Please select your movie:", [movies_array])
+    
+    theaters_array = Theater.all.map {|theater| theater.theater_name}
+    theater_prompt = TTY::Prompt.new
+    theater_option = theater_prompt.select("Please select the movie theater:", [theaters_array])
+
+    showtime_array = Showtime.all.map {|showtime| showtime.movie_time}
+    showtime_prompt = TTY::Prompt.new
+    # showtime_array.uniq!
+    showtime_option = showtime_prompt.select("Please select your time:", [showtime_array])
   end
 
   # def login
