@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2019_12_03_014949) do
   create_table "showtimes", force: :cascade do |t|
     t.integer "movie_id"
     t.integer "theater_id"
-    t.integer "movie_time"
+    t.string "movie_time"
   end
 
   create_table "theaters", force: :cascade do |t|
