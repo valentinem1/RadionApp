@@ -8,7 +8,6 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem "tty-prompt"
-
 gem "colorize", "~> 0.8.1"
-
+gem "formatador"
 gem "rest-client", "~> 2.1"

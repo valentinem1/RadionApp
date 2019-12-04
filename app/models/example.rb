@@ -346,7 +346,3 @@ end
 end
 
 
-BananaMan.animation
-BananaMan.go
-
-

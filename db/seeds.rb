@@ -1,7 +1,8 @@
 Movie.destroy_all
 Theater.destroy_all
 Showtime.destroy_all
-
+Ticket.destroy_all
+Customer.destroy_all
 10.times do 
     # binding.pry
     Movie.create(movie_name: Faker::Game.title, producer: Faker::FunnyName.name, rating: rand(1..5))
@@ -16,7 +17,7 @@ end
     Customer.create(name: Faker::Name.name)
 end
 
-10.times do
-    Showtime.create(movie_time: Faker::Time.between(from: DateTime.now - 1, to: DateTime.now, format: :short))
+5.times do
+    Showtime.create(movie_time: Faker::Time.between(from: DateTime.now , to: DateTime.now + 5, format: :short))
     # binding.pry
 end
