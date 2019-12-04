@@ -326,7 +326,7 @@ def self.frame_eight
 end
 
 def self.animation
-  5.times do
+  2.times do
     BananaMan.frame_one
     BananaMan.frame_two
     BananaMan.frame_three
