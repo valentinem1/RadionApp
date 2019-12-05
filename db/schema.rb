@@ -18,26 +18,21 @@ ActiveRecord::Schema.define(version: 2019_12_03_014949) do
 
   create_table "movies", force: :cascade do |t|
     t.string "movie_name"
-    t.string "producer"
-    t.integer "rating"
   end
 
   create_table "showtimes", force: :cascade do |t|
-    t.integer "movie_id"
-    t.integer "theater_id"
     t.string "movie_time"
   end
 
   create_table "theaters", force: :cascade do |t|
     t.string "theater_name"
-    t.datetime "schedule"
-    t.string "location"
   end
 
   create_table "tickets", force: :cascade do |t|
     t.integer "customer_id"
     t.integer "theater_id"
     t.integer "movie_id"
+    t.integer "showtime_id"
   end
 
 end
