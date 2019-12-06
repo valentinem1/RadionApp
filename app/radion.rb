@@ -10,23 +10,31 @@ class Radion
 
   private
 
+  #welcome the user/create it or find it if already exist
   def welcome
     system 'clear'
-    Animation.animation
+    # Animation.animation
     logo_displayer
-    puts "Hi, Welcome to Radion Movies"
 
-    puts "What is your name ?"
-    user = gets.chomp.downcase
+    puts "Hi, Welcome to Radion Movies"
+    menu_prompt = TTY::Prompt.new
+    user = menu_prompt.ask("Please enter your name:", required: true)
+    # puts "Please enter your name:"
+    # user = gets.chomp.downcase
+    #  while user.empty? do
+    #   puts "Please try again"
+    #   user = gets.chomp.downcase
+    #  end
     @user_instance = Customer.find_or_create_by(name: user)
     menu
   end
 
+  #display the menu options
   def menu
-    menu = ["Buy a movie","My tickets","Exit"]
+    menu = ["Buy a movie ticket","My tickets","Exit"]
     menu_prompt = TTY::Prompt.new
     menu_option = menu_prompt.select("Please select your option:", [menu])
-    if menu_option == "Buy a movie"
+    if menu_option == "Buy a movie ticket"
       movie_selector
     elsif menu_option == "Exit"
       exit
@@ -35,6 +43,7 @@ class Radion
     end
   end
 
+  
   def movie_selector
     movies_array = Movie.all.map{|movie| movie.movie_name}
     movies_array.uniq!
@@ -73,15 +82,15 @@ class Radion
   end
   
   def ticket_creator(movie_selection,theater_selection,showtime_selection)
-    @movie_instance = Movie.find_by(movie_name:@movie_selection)
+    @movie_instance = Movie.find_by(movie_name:@movie_selection) #find movie_name that = the movie customer selected(@movie_selection)
     @theater_instance = Theater.find_by(theater_name:@theater_selection)
     @showtime_instance = Showtime.find_by(movie_time:@showtime_selection)
     @ticket_instance = Ticket.create(customer_id: @user_instance.id,theater_id: @theater_instance.id,movie_id: @movie_instance.id, showtime_id: @showtime_instance.id)
-    ticket_printer(@ticket_instance,@movie_instance,@theater_instance)
+    ticket_printer(@ticket_instance,@movie_instance,@theater_instance, @showtime_instance)
   end
 
-  #after buying a ticket method
-  def ticket_printer(ticket_instance,movie_instance,theater_instance)
+  #after buying a ticket it displays the customer ticket
+  def ticket_printer(ticket_instance,movie_instance,theater_instance, showtime_instance)
     system 'clear'
     logo_displayer
     table_data = [
@@ -103,17 +112,18 @@ class Radion
     
     if @customer_tickets == []
       puts "No ticket found"
-      sleep (2)
+      sleep (1)
       menu
     end
     ticket_array = @customer_tickets.each do |ticket|
       ticket_table = [
         {:ticketnumber.capitalize => ticket.id,
-        :name.capitalize => (Customer.find_by(id: ticket.customer_id)).name,
-        :movie.capitalize => (Movie.find_by(id: ticket.movie_id)).movie_name,
-        :theater.capitalize => (Theater.find_by(id: ticket.theater_id)).theater_name,
-        :showtime.capitalize => (Showtime.find_by(id: ticket.showtime_id)).movie_time}
-      ]
+          :name.capitalize => (Customer.find_by(id: ticket.customer_id)).name, #in customer find 
+          :movie.capitalize => (Movie.find_by(id: ticket.movie_id)).movie_name,
+          :theater.capitalize => (Theater.find_by(id: ticket.theater_id)).theater_name,
+          :showtime.capitalize => (Showtime.find_by(id: ticket.showtime_id)).movie_time}
+        ]
+        binding.pry
         Formatador.display_table(ticket_table)  
       end
       update
@@ -180,12 +190,12 @@ class Radion
 
     def logo_displayer
       puts "
-██████╗  █████╗ ██████╗ ██╗ ██████╗ ███╗   ██╗
-██╔══██╗██╔══██╗██╔══██╗██║██╔═══██╗████╗  ██║
-██████╔╝███████║██║  ██║██║██║   ██║██╔██╗ ██║
-██╔══██╗██╔══██║██║  ██║██║██║   ██║██║╚██╗██║
-██║  ██║██║  ██║██████╔╝██║╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+      ██████╗  █████╗ ██████╗ ██╗ ██████╗ ███╗   ██╗
+      ██╔══██╗██╔══██╗██╔══██╗██║██╔═══██╗████╗  ██║
+      ██████╔╝███████║██║  ██║██║██║   ██║██╔██╗ ██║
+      ██╔══██╗██╔══██║██║  ██║██║██║   ██║██║╚██╗██║
+      ██║  ██║██║  ██║██████╔╝██║╚██████╔╝██║ ╚████║
+      ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
       ".red
 
     end
